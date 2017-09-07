@@ -91,6 +91,14 @@ class App extends Component {
             return (
               <div key={book._id} style={style}>
                 <p style={{fontSize: '20px', margin: '0'}}>{book.name}</p>
+                <a
+                  target="_blank"
+                  className="btn btn-primary"
+                  style={{position: 'absolute', right: '15%'}}
+                  href={`https://twitter.com/intent/tweet?text=I%20just%20borrowed%20${book.name}`}
+                >
+                  Tweet
+                </a>
                 <input
                   type="button"
                   style={{position: 'absolute', right: '8%'}}
