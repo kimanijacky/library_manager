@@ -2,11 +2,12 @@ const Books = require('../models');
 
 module.exports = {
   create: (req, res) => {
-    const new_book = new Books();
-    new_book.name = req.body.name;
-    new_book.count = req.body.count;
+    const book = new Books();
 
-    new_book.save((err, book) => {
+    book.name = req.body.name;
+    book.count = req.body.count;
+
+    book.save((err, book) => {
       if (err) {
         res.status(500).send(err);
       } else if (book) {
@@ -29,6 +30,17 @@ module.exports = {
       err ? res.status(404).send(err) : res.status(200).json(books);
     });
   },
+
+  findByName: function(req, res) {
+      Books.find({ name: req.params.name }, function(err, book) {
+        if (err) {
+          res.status(404).send(err);
+        } else {
+          res.status(200).send(book);
+        }
+      });
+    },
+
 
   update: (req, res) => {
     Books.findById({_id: req.params.id}, (err, book) => {

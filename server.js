@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const path = require('path');
 
 const seeds = require('./server/seeds/seed.js');
 const Books = require('./server/models');
@@ -11,11 +12,11 @@ const app = express();
 
 routes(app);
 
-const port = process.env.PORT || 3000;
-
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cors());
+
+const port = process.env.PORT || 3000;
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin: *");
@@ -24,6 +25,8 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Headers: Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, If-Modified-Since, X-File-Name, Cache-Control");
     next();
 });
+
+app.use(express.static(path.join(__dirname, 'dist')));
 
 mongoose.connect('mongodb://localhost:27017/library', (err) => {
   err ? console.log(err) : console.log('DB connected!!')
@@ -40,7 +43,7 @@ mongoose.connection.on('connected', () => {
 });
 
 app.get('/', (req, res) => {
-  console.log('App working');
+  res.render('./client/index.html');
 });
 
 app.listen(port, (err) => {

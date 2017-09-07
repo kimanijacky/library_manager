@@ -4,13 +4,16 @@ const Schema = mongoose.Schema;
 const BookSchema = new Schema({
   name: {
     type: String,
-    required: true,
+    required: true
   },
   available: {
     type: Boolean,
     default: true
   },
-  count: String
+  count: {
+    type: Number,
+    default: 0
+  }
 });
 
 module.exports = mongoose.model('Books', BookSchema);

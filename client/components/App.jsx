@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import request from 'superagent'
+import request from 'superagent';
+import Select from 'react-select';
 
 const style = {
   width: '700px',
@@ -19,6 +20,7 @@ class App extends Component {
       name: '',
       description: ''
     }
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   componentWillMount() {
@@ -35,13 +37,49 @@ class App extends Component {
       });
   }
 
+  onSubmit(event) {
+    event.preventDefault();
+    request
+      .post('http://localhost:3000/books')
+      .send({
+        name: this.state.name
+      })
+      .then(() => {
+        this.fetchBooks();
+         event.target.value = '';
+      })
+  }
+
   render() {
     return (
       <div>
+        {/* Enable a user to add a book */}
+        <div style={{padding: '50px'}} className='form-group'>
+          <form onSubmit={this.onSubmit}>
+            <div style={{flexDirection: 'column'}}>
+              <label>Name</label>
+              <input
+                className="form-control"
+                type="text"
+                name="name"
+                placeholder="Enter the name of the book"
+                onChange={(event) => {
+                  this.setState({
+                    name: event.target.value
+                  })
+                }}
+              />
+            </div>
+
+            <input type="submit" value="SUBMIT" style={{marginTop: '20px'}} className="btn btn-info"/>
+          </form>
+        </div>
+
+        {/* Displays all books on the list */}
         <div>
           {this.state.books.map((book, key) => {
             return (
-              <div key={book._id} style={{display: 'flex', justifyContent: 'center'}}>
+              <div key={book._id} style={{display: 'flex', justifyContent: 'flex-start'}}>
                 <p style={style}>{book.name}</p>
               </div>
             )
