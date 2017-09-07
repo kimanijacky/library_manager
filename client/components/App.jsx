@@ -3,13 +3,15 @@ import request from 'superagent';
 import Select from 'react-select';
 
 const style = {
-  width: '700px',
+  display: 'flex',
+  justifyContent: 'flex-start',
+  backgroundColor: 'lightblue',
+  borderRadius: '20px',
+  border: '1px solid black',
   margin: '20px 50px',
   padding: '20px',
-  backgroundColor: 'lightblue',
-  fontSize: '20px',
-  border: '1px solid black',
-  borderRadius: '20px'
+  height: '50px',
+  alignItems: 'center'
 }
 
 class App extends Component {
@@ -49,6 +51,15 @@ class App extends Component {
       })
   }
 
+  onDelete(id) {
+      request
+        .delete(`http://localhost:3000/books/${id}`)
+        .then((res, err) => {
+          err ? console.log(err) : console.log('Deleted')
+          this.fetchBooks();
+        })
+  }
+
   render() {
     return (
       <div>
@@ -78,8 +89,17 @@ class App extends Component {
         <div>
           {this.state.books.map((book, key) => {
             return (
-              <div key={book._id} style={{display: 'flex', justifyContent: 'flex-start'}}>
-                <p style={style}>{book.name}</p>
+              <div key={book._id} style={style}>
+                <p style={{fontSize: '20px', margin: '0'}}>{book.name}</p>
+                <input
+                  type="button"
+                  style={{position: 'absolute', right: '8%'}}
+                  className="btn btn-danger"
+                  value="Delete"
+                  onClick={() => {
+                    this.onDelete(book._id)
+                  }}
+                />
               </div>
             )
           })}
