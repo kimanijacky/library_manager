@@ -4,13 +4,15 @@ module.exports = {
   create: (req, res) => {
     const new_book = new Books();
     new_book.name = req.body.name;
+    new_book.count = req.body.count;
 
     new_book.save((err, book) => {
       if (err) {
-        res.status(500).send(err)
+        res.status(500).send(err);
       } else if (book) {
         res.status(201).json(book);
       } else {
+        // [WIP] - Add check for book exists
         res.status(409).json({message: 'Book already exists'});
       }
     });
