@@ -3,7 +3,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-const seed = require('./server/seeds/seed.js');
+const seeds = require('./server/seeds/seed.js');
+const Books = require('./server/models');
 
 const app = express();
 
@@ -22,7 +23,7 @@ mongoose.connection.on('connected', () => {
     err ? console.log(err) : console.log('Collection removed');
   });
 
-  Books.create(seed.books, () => {
+  Books.create(seeds.books, (err) => {
     err ? console.log(err) : console.log('Collection created');
   });
 });

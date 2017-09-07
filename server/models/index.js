@@ -6,7 +6,10 @@ const BookSchema = new Schema({
     type: String,
     required: true,
   },
-  available: Boolean,
+  available: {
+    type: Boolean,
+    default: true
+  },
   count: String
 });
 

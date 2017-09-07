@@ -1,5 +1,5 @@
 module.exports = {
-  seeds: [
+  books: [
     {
       name: "Harry Potter",
       available: true,
