@@ -20,9 +20,11 @@ class App extends Component {
     this.state = {
       books: [],
       name: '',
-      description: ''
+      available: true,
+      count: 0
     }
     this.onSubmit = this.onSubmit.bind(this);
+    this.borrowBook = this.borrowBook.bind(this);
   }
 
   componentWillMount() {
@@ -49,6 +51,28 @@ class App extends Component {
       .then(() => {
         this.fetchBooks();
       })
+  }
+
+  borrowBook() {
+    const count = this.state.count;
+
+    this.setState({
+      available: true,
+      count: count + 1
+    })
+
+    console.log('Borrowing');
+  }
+
+  returnBook() {
+    const count = this.state.count;
+
+    this.setState({
+      available: false,
+      count: count + 1
+    })
+
+    console.log('Returning');
   }
 
   onDelete(id) {
@@ -91,6 +115,14 @@ class App extends Component {
             return (
               <div key={book._id} style={style}>
                 <p style={{fontSize: '20px', margin: '0'}}>{book.name}</p>
+                <input
+                  type='button'
+                  value={this.state.available ? 'Borrow' : 'Return'}
+                  className='btn'
+                  style={{position: 'absolute', right: '22%'}}
+                  onClick={this.state.available ? this.borrowBook : this.returnBook}
+                  onClick={this.borrowBook}
+                />
                 <a
                   target="_blank"
                   className="btn btn-primary"
