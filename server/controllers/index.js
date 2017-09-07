@@ -1,8 +1,8 @@
 const Books = require('../models');
 
 module.exports = {
-  create: () => {
-    const new_book = new Book();
+  create: (req, res) => {
+    const new_book = new Books();
     new_book.name = req.body.name;
 
     new_book.save((err, book) => {
@@ -16,19 +16,19 @@ module.exports = {
     });
   },
 
-  findOne: () => {
+  findOne: (req, res) => {
     Books.findById({_id: req.params.id}, (err, book) => {
       err ? res.status(404).send(err) : res.status(200).json(book);
     });
   },
 
-  findAll: () => {
+  findAll: (req, res) => {
     Books.find({}, (err, books) => {
       err ? res.status(404).send(err) : res.status(200).json(books);
     });
   },
 
-  update: () => {
+  update: (req, res) => {
     Books.findById({_id: req.params.id}, (err, book) => {
       if (req.body.name) {book.name = req.body.name}
       if (req.body.available) {book.available = req.body.available}
@@ -40,7 +40,7 @@ module.exports = {
     });
   },
 
-  delete: () => {
+  delete: (req, res) => {
     Books.findByIdAndRemove({_id: req.params.id}, (err) => {
       err ? res.status(404).send(err) : res.status(200).json({message: 'Book Deleted!'});
     })

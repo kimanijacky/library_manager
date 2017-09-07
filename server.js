@@ -5,8 +5,11 @@ const mongoose = require('mongoose');
 
 const seeds = require('./server/seeds/seed.js');
 const Books = require('./server/models');
+const routes = require('./server/routes');
 
 const app = express();
+
+routes(app);
 
 const port = process.env.PORT || 3000;
 
