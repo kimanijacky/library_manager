@@ -10,11 +10,11 @@ const routes = require('./server/routes');
 
 const app = express();
 
-routes(app);
-
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cors());
+
+routes(app);
 
 const port = process.env.PORT || 3000;
 

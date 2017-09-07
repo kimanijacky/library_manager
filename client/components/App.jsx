@@ -46,7 +46,6 @@ class App extends Component {
       })
       .then(() => {
         this.fetchBooks();
-         event.target.value = '';
       })
   }
 
